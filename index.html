@@ -771,14 +771,12 @@ footer {
 }
 
 .music-toggle.playing i {
-  animation: noteSpin 1.5s linear infinite;
+  animation: noteSpin 7s linear infinite;
 }
 
 @keyframes noteSpin {
-  0%   { transform: rotate(0deg); }
-  25%  { transform: rotate(15deg); }
-  75%  { transform: rotate(-15deg); }
-  100% { transform: rotate(0deg); }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .music-toggle .toggle-text {
@@ -1145,14 +1143,10 @@ function handleSubmit(e) {
     if (playing) {
       audio.pause();
       btn.classList.remove('playing');
-      icon.className = 'fa-solid fa-music';
-      btn.querySelector('.toggle-text').textContent = 'BGM';
       playing = false;
     } else {
       audio.play().then(() => {
         btn.classList.add('playing');
-        icon.className = 'fa-solid fa-volume-high';
-        btn.querySelector('.toggle-text').textContent = 'ON';
         playing = true;
       }).catch((err) => {
         console.log('音乐播放失败:', err);
