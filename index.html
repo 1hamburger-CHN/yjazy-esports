@@ -769,8 +769,13 @@ footer {
   background: rgba(0, 229, 255, 0.08);
 }
 
-.music-toggle.playing i {
+.music-toggle i {
   animation: noteSpin 7s linear infinite;
+  animation-play-state: paused;
+}
+
+.music-toggle.playing i {
+  animation-play-state: running;
 }
 
 @keyframes noteSpin {
