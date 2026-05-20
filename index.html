@@ -737,16 +737,19 @@ footer {
 }
 
 /* ---------- Music Toggle ---------- */
-.music-toggle {
+.music-toggle-wrap {
   position: fixed;
   top: 84px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1001;
+}
+
+.music-toggle {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   background: rgba(6, 6, 10, 0.85);
   color: var(--text-muted);
   font-size: 18px;
@@ -754,7 +757,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: background 0.3s;
   backdrop-filter: blur(10px);
 }
 
@@ -764,9 +767,8 @@ footer {
 }
 
 .music-toggle.playing {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: rgba(0, 229, 255, 0.08);
+  background: rgba(0, 229, 255, 0.06);
+  animation: borderColorCycle 4s linear infinite, sinePulse 0.5s ease-in-out infinite;
 }
 
 .music-toggle i {
@@ -781,6 +783,23 @@ footer {
 @keyframes noteSpin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
+}
+
+@keyframes borderColorCycle {
+  0%   { border-color: #00e5ff; color: #00e5ff; }
+  20%  { border-color: #7c4dff; color: #7c4dff; }
+  40%  { border-color: #ff4081; color: #ff4081; }
+  60%  { border-color: #ffd740; color: #ffd740; }
+  80%  { border-color: #00e676; color: #00e676; }
+  100% { border-color: #00e5ff; color: #00e5ff; }
+}
+
+@keyframes sinePulse {
+  0%, 100% { transform: scale(1); }
+  25%      { transform: scale(1.1); }
+  50%      { transform: scale(1); }
+  75%      { transform: scale(0.92); }
+  100%     { transform: scale(1); }
 }
 
 </style>
@@ -806,9 +825,11 @@ footer {
 </nav>
 
 <!-- Music Toggle -->
-<button class="music-toggle" id="musicToggle" aria-label="音乐开关">
-  <i class="fa-solid fa-music"></i>
-</button>
+<div class="music-toggle-wrap">
+  <button class="music-toggle" id="musicToggle" aria-label="音乐开关">
+    <i class="fa-solid fa-music"></i>
+  </button>
+</div>
 
 <!-- Hero -->
 <section class="hero" id="home">
