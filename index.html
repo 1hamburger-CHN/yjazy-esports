@@ -1130,26 +1130,23 @@ function handleSubmit(e) {
   const icon = btn.querySelector('i');
   let playing = false;
 
-  // Set default music source when user provides one
-  // audio.src = 'your-music.mp3';
-
   btn.addEventListener('click', () => {
-    if (!audio.src || audio.src === window.location.href) {
-      return; // No music source configured yet
-    }
     if (playing) {
       audio.pause();
       btn.classList.remove('playing');
       icon.className = 'fa-solid fa-music';
       btn.querySelector('.toggle-text').textContent = 'BGM';
+      playing = false;
     } else {
       audio.play().then(() => {
         btn.classList.add('playing');
         icon.className = 'fa-solid fa-volume-high';
         btn.querySelector('.toggle-text').textContent = 'ON';
-      }).catch(() => {});
+        playing = true;
+      }).catch((err) => {
+        console.log('音乐播放失败:', err);
+      });
     }
-    playing = !playing;
   });
 })();
 </script>
