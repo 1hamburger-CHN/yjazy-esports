@@ -770,6 +770,17 @@ footer {
   background: rgba(0, 229, 255, 0.08);
 }
 
+.music-toggle.playing i {
+  animation: noteSpin 1.5s linear infinite;
+}
+
+@keyframes noteSpin {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(15deg); }
+  75%  { transform: rotate(-15deg); }
+  100% { transform: rotate(0deg); }
+}
+
 .music-toggle .toggle-text {
   font-size: 12px;
 }
