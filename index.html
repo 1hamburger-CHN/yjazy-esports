@@ -735,6 +735,44 @@ footer {
   .hero h1 { letter-spacing: 6px; }
   .stats-row { flex-wrap: wrap; gap: 24px; justify-content: center; }
 }
+
+/* ---------- Music Toggle ---------- */
+.music-toggle {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.music-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.music-toggle.playing {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(0, 229, 255, 0.08);
+  animation: musicPulse 2s infinite;
+}
+
+@keyframes musicPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
+  50%      { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
+}
 </style>
 </head>
 <body>
@@ -986,6 +1024,14 @@ footer {
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </footer>
 
+<!-- Music Player -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="" type="audio/mpeg">
+</audio>
+<button class="music-toggle" id="musicToggle" aria-label="音乐开关">
+  <i class="fa-solid fa-music"></i>
+</button>
+
 <script>
 // ===== Canvas Background =====
 const canvas = document.getElementById('bgCanvas');
@@ -1073,6 +1119,34 @@ function handleSubmit(e) {
     e.target.reset();
   }, 2000);
 }
+
+// ===== Music Toggle =====
+(function() {
+  const audio = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicToggle');
+  const icon = btn.querySelector('i');
+  let playing = false;
+
+  // Set default music source when user provides one
+  // audio.src = 'your-music.mp3';
+
+  btn.addEventListener('click', () => {
+    if (!audio.src || audio.src === window.location.href) {
+      return; // No music source configured yet
+    }
+    if (playing) {
+      audio.pause();
+      btn.classList.remove('playing');
+      icon.className = 'fa-solid fa-music';
+    } else {
+      audio.play().then(() => {
+        btn.classList.add('playing');
+        icon.className = 'fa-solid fa-volume-high';
+      }).catch(() => {});
+    }
+    playing = !playing;
+  });
+})();
 </script>
 
 </body>
