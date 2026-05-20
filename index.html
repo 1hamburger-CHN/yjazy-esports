@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YJAZY 亚军电竞战队</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #06060a;
+  --bg-card: #0d0d15;
+  --accent: #00e5ff;
+  --accent2: #7c4dff;
+  --gold: #ffd740;
+  --text: #e0e0e0;
+  --text-muted: #888;
+  --border: rgba(255,255,255,0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ---------- Canvas Background ---------- */
+#bgCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------- Navigation ---------- */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  height: 72px;
+  background: rgba(6,6,10,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+nav .logo .nav-logo-img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+nav .logo {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+nav .nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  position: relative;
+}
+
+nav .nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+nav .nav-links a:hover { color: #fff; }
+nav .nav-links a:hover::after { width: 100%; }
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 28px; height: 2px;
+  background: #fff;
+  transition: 0.3s;
+}
+
+/* ---------- Hero Section ---------- */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero .subtitle {
+  font-size: 18px;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 10vw, 100px);
+  font-weight: 900;
+  letter-spacing: 12px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--gold) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease infinite, fadeInUp 0.8s 0.15s ease forwards;
+  opacity: 0;
+}
+
+.hero .hero-yjazy {
+  font-size: 22px;
+  letter-spacing: 10px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.22s ease forwards;
+}
+
+.hero .tagline {
+  font-size: 20px;
+  color: var(--text-muted);
+  letter-spacing: 4px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.3s ease forwards;
+}
+
+.hero .cta-btn {
+  display: inline-block;
+  padding: 14px 48px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #000;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.45s ease forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero .cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,229,255,0.3);
+}
+
+.hero .cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.hero .cta-btn:hover::before { left: 100%; }
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 2px;
+  animation: bounce 2s infinite;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.6s ease forwards, bounce 2s 1s infinite;
+}
+
+.scroll-indicator i { font-size: 20px; }
+
+/* ---------- Sections ---------- */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-header h2 {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.section-header .divider {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  margin: 0 auto 16px;
+}
+
+.section-header p {
+  color: var(--text-muted);
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+/* ---------- About ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-text h3 {
+  font-size: 28px;
+  color: #fff;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.about-text h3 span { color: var(--accent); }
+
+.about-text p {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.stats-row {
+  display: flex;
+  gap: 40px;
+  margin-top: 32px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.about-image .about-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 32px;
+  z-index: 1;
+  position: relative;
+}
+
+.about-image {
+  position: relative;
+  aspect-ratio: 4/3;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.about-image .placeholder-logo {
+  font-size: 80px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,229,255,0.05), transparent);
+}
+
+/* ---------- Roster ---------- */
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.player-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.player-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px rgba(0,229,255,0.1);
+}
+
+.player-avatar {
+  height: 220px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(124,77,255,0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.player-avatar i {
+  font-size: 64px;
+  color: rgba(255,255,255,0.15);
+}
+
+.player-info {
+  padding: 20px;
+  text-align: center;
+}
+
+.player-info h4 {
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.player-info .role {
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.player-info .bio {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.player-social {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.player-social a {
+  color: var(--text-muted);
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.player-social a:hover { color: var(--accent); }
+
+/* ---------- Achievements ---------- */
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 32px;
+  transition: border-color 0.3s;
+}
+
+.achievement-item:hover { border-color: var(--accent); }
+
+.achievement-rank {
+  width: 64px; height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+
+.achievement-rank.gold { background: linear-gradient(135deg, #ffd740, #ffab00); }
+.achievement-rank.silver { background: linear-gradient(135deg, #bdbdbd, #757575); }
+.achievement-rank.bronze { background: linear-gradient(135deg, #ffab40, #e65100); }
+
+.achievement-info h4 {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.achievement-info .detail {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.achievement-year {
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+/* ---------- Contact ---------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.contact-info h3 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.contact-info p {
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-method {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+.contact-method:hover { border-color: var(--accent); }
+
+.contact-method i {
+  font-size: 22px;
+  color: var(--accent);
+  width: 40px;
+  text-align: center;
+}
+
+.contact-method .label {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.contact-method .value {
+  font-size: 16px;
+  color: #fff;
+}
+
+.social-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px; height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 20px;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(0,229,255,0.05);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--accent);
+}
+
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.contact-form button {
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #000;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,229,255,0.3);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(10px); }
+}
+
+/* ---------- Reveal on Scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+
+  nav .nav-links {
+    position: fixed;
+    top: 72px; left: 0; right: 0; bottom: 0;
+    background: rgba(6,6,10,0.98);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    transform: translateX(100%);
+    transition: transform 0.3s;
+    backdrop-filter: blur(20px);
+  }
+
+  nav .nav-links.active { transform: translateX(0); }
+
+  .menu-toggle { display: flex; z-index: 1001; }
+
+  .section { padding: 80px 24px; }
+
+  .about-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-image { order: -1; }
+
+  .roster-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .achievement-item {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .achievement-year { margin-left: 0; width: 100%; text-align: right; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { letter-spacing: 6px; }
+  .stats-row { flex-wrap: wrap; gap: 24px; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- Navigation -->
+<nav>
+  <div class="logo"><img src="logo.png" alt="YJAZY" class="nav-logo-img"></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">首页</a></li>
+    <li><a href="#about">关于</a></li>
+    <li><a href="#roster">队员</a></li>
+    <li><a href="#achievements">荣誉</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+  <p class="subtitle">Welcome to YJAZY Esports</p>
+  <h1>亚军电竞</h1>
+  <p class="hero-yjazy">YJAZY</p>
+  <p class="tagline">永不言弃 · 逐梦巅峰</p>
+  <a href="#about" class="cta-btn">了解我们</a>
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section" id="about">
+  <div class="section-header reveal">
+    <h2>关于我们</h2>
+    <div class="divider"></div>
+    <p>YJAZY — 为电竞而生</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <h3>亚军电竞战队 <span>YJAZY</span></h3>
+      <p>
+        亚军电竞战队成立于2020年，是一支充满激情与活力的新兴电竞力量。
+        战队名称"亚军"并非满足于第二名，而是寓意着我们始终以挑战者的姿态，
+        不断向冠军发起冲击的决心。
+      </p>
+      <p>
+        我们汇聚了一群热爱电竞、技术精湛的年轻选手，目前主要竞技项目为
+        Counter-Strike 2（CS2）和三角洲行动。
+        战队以"团结、进取、永不言弃"为核心精神，致力于在国内电竞舞台上打响我们的名号。
+      </p>
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-number">5+</span>
+          <span class="stat-label">成立年数</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">14</span>
+          <span class="stat-label">战队成员</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1</span>
+          <span class="stat-label">赛事荣誉</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">2</span>
+          <span class="stat-label">竞技项目</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-image reveal">
+      <img src="logo.png" alt="YJAZY Logo" class="about-logo-img">
+    </div>
+  </div>
+</section>
+
+<!-- Roster -->
+<section class="section" id="roster">
+  <div class="section-header reveal">
+    <h2>战队阵容</h2>
+    <div class="divider"></div>
+    <p>我们的核心队员</p>
+  </div>
+  <div class="roster-grid">
+    <div class="player-card reveal">
+      <div class="player-avatar"><img src="指挥.jpg" alt="久憾逢甘雨"></div>
+      <div class="player-info">
+        <h4>久憾逢甘雨</h4>
+        <p class="role">队长 / IGL</p>
+        <p class="bio">战术指挥核心，拥有出色的战场阅读能力和临场决策力，带领团队走向胜利。完美世界S21赛季S段位7星。</p>
+        <div class="player-social">
+          <a href="https://space.bilibili.com/401946139?spm_id_from=333.1387.fans.user_card.click" target="_blank" rel="noopener" aria-label="B站"><i class="fa-brands fa-bilibili"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card reveal">
+      <div class="player-avatar"><img src="突破手1.jpg" alt="汉堡王"></div>
+      <div class="player-info">
+        <h4>汉堡王</h4>
+        <p class="role">突破手</p>
+        <p class="bio">反应极快的一线突破手，枪法精准，总能在关键时刻撕开对手防线。完美世界S21赛季精英A+，70火力。</p>
+        <div class="player-social">
+          <a href="https://space.bilibili.com/347648053?spm_id_from=333.1007.0.0" target="_blank" rel="noopener" aria-label="B站"><i class="fa-brands fa-bilibili"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card reveal">
+      <div class="player-avatar"><img src="自由人.jpg" alt="夕阳的刻痕 非"></div>
+      <div class="player-info">
+        <h4>夕阳的刻痕 非</h4>
+        <p class="role">自由人</p>
+        <p class="bio">神鬼二相性选手，攻守兼备的多面手，擅长侧翼渗透和关键信息收集，是队伍的稳定支点。完美世界S21赛季精英A+，50火力。</p>
+        <div class="player-social">
+          <a href="https://www.douyin.com/user/MS4wLjABAAAAjOVHeFBkfhPIwsAk-W3gwNindzyJzmg8QzYKnTSYzAQ?from_tab_name=main&is_search=0&list_name=fans&nt=0" target="_blank" rel="noopener" aria-label="抖音"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card reveal">
+      <div class="player-avatar"><img src="突破手2.jpg" alt="突破且白给"></div>
+      <div class="player-info">
+        <h4>突破且白给</h4>
+        <p class="role">突破手</p>
+        <p class="bio">打法凶悍的正面突破手，以无畏的冲锋和无与伦比的枪法撕碎敌人防线，是队伍中最锋利的那把尖刀。</p>
+        <div class="player-social">
+          <a href="https://space.bilibili.com/1337885226?spm_id_from=333.1387.fans.user_card.click" target="_blank" rel="noopener" aria-label="B站"><i class="fa-brands fa-bilibili"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-card reveal">
+      <div class="player-avatar"><img src="狙击手.jpg" alt="呵呵c啊"></div>
+      <div class="player-info">
+        <h4>呵呵c啊</h4>
+        <p class="role">狙击手</p>
+        <p class="bio">已重生为三角洲大手子，曾在比赛中拯救队伍于水火之中，但至于为什么水火之中你别问。</p>
+        <div class="player-social">
+          <a href="https://space.bilibili.com/388164093?spm_id_from=333.1387.fans.user_card.click" target="_blank" rel="noopener" aria-label="B站"><i class="fa-brands fa-bilibili"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Achievements -->
+<section class="section" id="achievements">
+  <div class="section-header reveal">
+    <h2>战队荣誉</h2>
+    <div class="divider"></div>
+    <p>每一份荣耀都是拼搏的见证</p>
+  </div>
+  <div class="achievements-list">
+    <div class="achievement-item reveal">
+      <div class="achievement-rank silver">2nd</div>
+      <div class="achievement-info">
+        <h4>2025 西农杯电竞大赛 — 亚军</h4>
+        <p class="detail">首次参赛即从多支队伍中脱颖而出，斩获亚军，展现了战队的无限潜力。</p>
+      </div>
+      <span class="achievement-year">2025</span>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact">
+  <div class="section-header reveal">
+    <h2>联系我们</h2>
+    <div class="divider"></div>
+    <p>加入我们或商务合作</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>期待你的加入</h3>
+      <p>
+        无论你是想要加入战队的潜力新星，还是寻求合作的品牌伙伴，
+        亚军电竞战队都欢迎你的到来。一起在电竞的舞台上创造属于我们的辉煌。
+      </p>
+      <div class="contact-methods">
+        <div class="contact-method">
+          <i class="fa-solid fa-envelope"></i>
+          <div>
+            <div class="label">电子邮箱</div>
+            <div class="value">316228079@qq.com</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <i class="fa-brands fa-bilibili"></i>
+          <div>
+            <div class="label">Bilibili</div>
+            <div class="value">YJAZY 亚军电竞</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <i class="fa-brands fa-tiktok"></i>
+          <div>
+            <div class="label">抖音</div>
+            <div class="value">YJAZY_Esports</div>
+          </div>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="https://space.bilibili.com/3546794462022088?spm_id_from=333.1387.fans.user_card.click" target="_blank" rel="noopener" aria-label="B站"><i class="fa-brands fa-bilibili"></i></a>
+        <a href="https://www.douyin.com/user/MS4wLjABAAAAHbSxQajGE2GgAcGHoiSHluVjPzKI2YTV2iR9EmM7U2c?from_tab_name=main&is_search=0&list_name=fans&nt=0" target="_blank" rel="noopener" aria-label="抖音"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+    </div>
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+      <input type="text" placeholder="你的名字" required>
+      <input type="email" placeholder="电子邮箱" required>
+      <input type="text" placeholder="主题">
+      <textarea placeholder="留言内容..." required></textarea>
+      <button type="submit">发送消息</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 YJAZY 亚军电竞战队. All Rights Reserved.</p>
+</footer>
+
+<script>
+// ===== Canvas Background =====
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.reset();
+    this.y = Math.random() * canvas.height;
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = -10;
+    this.size = Math.random() * 2 + 0.5;
+    this.speed = Math.random() * 0.8 + 0.2;
+    this.opacity = Math.random() * 0.5 + 0.1;
+  }
+  update() {
+    this.y += this.speed;
+    if (this.y > canvas.height + 10) { this.reset(); this.y = -10; }
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0, 229, 255, ${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) {
+  particles.push(new Particle());
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ===== Mobile Menu Toggle =====
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+});
+
+// Close menu when a link is clicked
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+  });
+});
+
+// ===== Scroll Reveal =====
+const revealElements = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+revealElements.forEach(el => observer.observe(el));
+
+// ===== Contact Form =====
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  const originalText = btn.textContent;
+  btn.textContent = '发送成功!';
+  btn.style.background = 'linear-gradient(135deg, #00e676, #00c853)';
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.background = '';
+    e.target.reset();
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
