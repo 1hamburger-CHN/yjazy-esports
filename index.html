@@ -743,20 +743,19 @@ footer {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 20px;
-  border-radius: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border: 1px solid var(--border);
   background: rgba(6, 6, 10, 0.85);
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 18px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s;
   backdrop-filter: blur(10px);
-  letter-spacing: 1px;
 }
 
 .music-toggle:hover {
@@ -779,9 +778,6 @@ footer {
   to   { transform: rotate(360deg); }
 }
 
-.music-toggle .toggle-text {
-  font-size: 12px;
-}
 </style>
 </head>
 <body>
@@ -807,7 +803,6 @@ footer {
 <!-- Music Toggle -->
 <button class="music-toggle" id="musicToggle" aria-label="音乐开关">
   <i class="fa-solid fa-music"></i>
-  <span class="toggle-text">BGM</span>
 </button>
 
 <!-- Hero -->
