@@ -768,7 +768,8 @@ footer {
 
 .music-toggle.playing {
   background: rgba(0, 229, 255, 0.06);
-  animation: borderColorCycle 4s linear infinite, sinePulse 0.5s ease-in-out infinite;
+  animation: borderColorCycle 4s linear infinite;
+  filter: url(#waveDistort);
 }
 
 .music-toggle i {
@@ -794,17 +795,18 @@ footer {
   100% { border-color: #00e5ff; color: #00e5ff; }
 }
 
-@keyframes sinePulse {
-  0%, 100% { transform: scale(1); }
-  25%      { transform: scale(1.1); }
-  50%      { transform: scale(1); }
-  75%      { transform: scale(0.92); }
-  100%     { transform: scale(1); }
-}
-
 </style>
 </head>
 <body>
+
+<svg style="position:absolute;width:0;height:0;" aria-hidden="true">
+  <filter id="waveDistort" x="-50%" y="-50%" width="200%" height="200%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="2" result="noise">
+      <animate attributeName="seed" values="1;5;9;13;17;21;25;29;33;37;41;45;50" dur="1.5s" repeatCount="indefinite" />
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
 
 <canvas id="bgCanvas"></canvas>
 
