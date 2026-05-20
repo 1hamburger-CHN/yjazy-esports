@@ -362,6 +362,8 @@ nav .nav-links a:hover::after { width: 100%; }
   overflow: hidden;
   transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .player-card:hover {
@@ -394,6 +396,9 @@ nav .nav-links a:hover::after { width: 100%; }
 .player-info {
   padding: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .player-info h4 {
@@ -421,7 +426,7 @@ nav .nav-links a:hover::after { width: 100%; }
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid var(--border);
 }
