@@ -8,13 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-dark: #06060a;
-  --bg-card: #0d0d15;
-  --accent: #00e5ff;
-  --accent2: #7c4dff;
-  --gold: #ffd740;
+  --bg-dark: #0a0812;
+  --bg-card: #141025;
+  --accent: #ff6b9d;
+  --accent2: #c44dff;
+  --gold: #ffb347;
   --text: #e0e0e0;
-  --text-muted: #888;
+  --text-muted: #8a8099;
   --border: rgba(255,255,255,0.06);
 }
 
@@ -196,7 +196,7 @@ nav .nav-links a:hover::after { width: 100%; }
 
 .hero .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,229,255,0.3);
+  box-shadow: 0 8px 30px rgba(255,107,157,0.3);
 }
 
 .hero .cta-btn::before {
@@ -345,7 +345,7 @@ nav .nav-links a:hover::after { width: 100%; }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(0,229,255,0.05), transparent);
+  background: radial-gradient(circle at center, rgba(255,107,157,0.05), transparent);
 }
 
 /* ---------- Roster ---------- */
@@ -369,12 +369,12 @@ nav .nav-links a:hover::after { width: 100%; }
 .player-card:hover {
   transform: translateY(-6px);
   border-color: var(--accent);
-  box-shadow: 0 12px 40px rgba(0,229,255,0.1);
+  box-shadow: 0 12px 40px rgba(255,107,157,0.1);
 }
 
 .player-avatar {
   height: 220px;
-  background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(124,77,255,0.1));
+  background: linear-gradient(135deg, rgba(255,107,157,0.1), rgba(196,77,255,0.1));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -578,7 +578,7 @@ nav .nav-links a:hover::after { width: 100%; }
 .social-links a:hover {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(0,229,255,0.05);
+  background: rgba(255,107,157,0.05);
 }
 
 .contact-form {
@@ -627,7 +627,7 @@ nav .nav-links a:hover::after { width: 100%; }
 
 .contact-form button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,229,255,0.3);
+  box-shadow: 0 8px 30px rgba(255,107,157,0.3);
 }
 
 /* ---------- Footer ---------- */
@@ -748,7 +748,7 @@ footer {
 }
 
 .music-toggle.playing {
-  background: rgba(0, 229, 255, 0.06);
+  background: rgba(255, 107, 157, 0.06);
   animation: borderColorCycle 4s linear infinite;
 }
 
@@ -777,12 +777,12 @@ footer {
 }
 
 @keyframes borderColorCycle {
-  0%   { border-color: #00e5ff; color: #00e5ff; }
-  20%  { border-color: #7c4dff; color: #7c4dff; }
+  0%   { border-color: #ff6b9d; color: #ff6b9d; }
+  20%  { border-color: #c44dff; color: #c44dff; }
   40%  { border-color: #ff4081; color: #ff4081; }
   60%  { border-color: #ffd740; color: #ffd740; }
   80%  { border-color: #00e676; color: #00e676; }
-  100% { border-color: #00e5ff; color: #00e5ff; }
+  100% { border-color: #ff6b9d; color: #ff6b9d; }
 }
 
 @keyframes waveRing {
@@ -1067,7 +1067,7 @@ class Particle {
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(0, 229, 255, ${this.opacity})`;
+    ctx.fillStyle = `rgba(255, 107, 157, ${this.opacity})`;
     ctx.fill();
   }
 }
